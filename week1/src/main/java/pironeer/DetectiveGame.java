@@ -37,6 +37,13 @@ public class DetectiveGame {
         timer.sleep(1000);
 
         // 4. Reader 클래스를 사용하여 탐정의 이름을 입력받고 1.5초 정지
+        Reader reader = new Reader();
+        System.out.println("탐정의 이름을 알려주세요: ");
+        String detectiveName = reader.nextLine();
+        System.out.println("탐정의 이름: " + detectiveName);
+        Timer timer = new Timer();
+        timer.sleep(1500);
+
 
         // 5. 캐릭터 중 한 명을 희생자로 지정하고, 목록에서 제거
 
