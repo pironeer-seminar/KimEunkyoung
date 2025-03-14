@@ -115,7 +115,8 @@ public class DetectiveGame {
         timer.sleep(1000);
 
         // 7. 용의자 총 인원수 출력
-        System.out.println("\n문제의 노트북 주위에 있는 사람은 " + {7번} + "명입니다.");
+        //System.out.println("\n문제의 노트북 주위에 있는 사람은 " + {7번} + "명입니다.");
+        System.out.println("\n문제의 노트북 주위에 있는 사람은 " + characters.size() + "명입니다.");
         timer.sleep(1000);
 
         System.out.println("그중, 범인은 바로 이 자리에 있을 것입니다...");
