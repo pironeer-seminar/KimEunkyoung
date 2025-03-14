@@ -141,9 +141,30 @@ public class DetectiveGame {
 
         // 8. 사용자가 입력한 이름을 가진 용의자 조사
 
-        System.out.println("잘못된 입력입니다! 시간이 얼마 남지 않았습니다, 다시 시도해주세요!");
-        System.out.println("범인은 아직도 우리 곁에 있어요. 서둘러 진실을 밝혀내야 합니다!");
-        System.out.println(detectiveName + ": 좋아, 이번엔 잘 선택해보자.");
+        Character suspect = null;
+        for (Character c : characters) {
+            if (c.getName().equalsIgnoreCase(choiceName)) {
+                suspect = c;
+                break;
+            }
+        }
+
+        if (suspect != null) {
+            System.out.println("\n[조사 결과]");
+            System.out.println("이름: " + suspect.getName());
+            System.out.println("머리스타일: " + suspect.getHair());
+            System.out.println("옷차림: " + suspect.getClothes());
+            System.out.println("신발: " + suspect.getShoes());
+        } else {
+            System.out.println("잘못된 입력입니다! 시간이 얼마 남지 않았습니다, 다시 시도해주세요!");
+            System.out.println("범인은 아직도 우리 곁에 있어요. 서둘러 진실을 밝혀내야 합니다!");
+            System.out.println(detectiveName + ": 좋아, 이번엔 잘 선택해보자.");
+            investigate();  // 재귀 호출로 다시 조사 진행
+        }
+
+//        System.out.println("잘못된 입력입니다! 시간이 얼마 남지 않았습니다, 다시 시도해주세요!");
+//        System.out.println("범인은 아직도 우리 곁에 있어요. 서둘러 진실을 밝혀내야 합니다!");
+//        System.out.println(detectiveName + ": 좋아, 이번엔 잘 선택해보자.");
 
         investigate();
     }
