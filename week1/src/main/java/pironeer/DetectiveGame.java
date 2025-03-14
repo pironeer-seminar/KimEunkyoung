@@ -60,23 +60,44 @@ public class DetectiveGame {
         // 6. 랜덤하게 속성 값을 선택하고 다잉메시지 출력
 
         // 랜덤하게 속성 값 선택
-        String selectedAttribute = dyingMessageType.get(random.nextInt(dyingMessageType.size()));
+//        String selectedAttribute = dyingMessageType.get(random.nextInt(dyingMessageType.size()));
+//
+//        // 다잉 메시지 설정
+//        switch (selectedAttribute) {
+//            case "hair":
+//                dyingMessage = "머리스타일은 " + victim.getHair() + "으악..";
+//                break;
+//            case "clothes":
+//                dyingMessage = "옷은 " + victim.getClothes() + "으악..";
+//                break;
+//            case "shoes":
+//                dyingMessage = "신발은 " + victim.getShoes() + "으악..";
+//                break;
+//            default:
+//                dyingMessage = "모든 것이 혼란스러워...";
+//                break;
+//        }
 
-        // 다잉 메시지 설정
+        // Enum 선언
+        enum AttributeType {
+            HAIR, CLOTHES, SHOES;
+        }
+
+        // 사용
+        AttributeType selectedAttribute = AttributeType.values()[random.nextInt(AttributeType.values().length)];
+
         switch (selectedAttribute) {
-            case "hair":
-                dyingMessage = "머리스타일은 " + victim.getHair() + "으악..";
+            case HAIR:
+                dyingMessage = "머리스타일은 " + victim.getHair() + " 으악..";
                 break;
-            case "clothes":
-                dyingMessage = "옷은 " + victim.getClothes() + "으악..";
+            case CLOTHES:
+                dyingMessage = "옷은 " + victim.getClothes() + " 으악..";
                 break;
-            case "shoes":
-                dyingMessage = "신발은 " + victim.getShoes() + "으악..";
-                break;
-            default:
-                dyingMessage = "모든 것이 혼란스러워...";
+            case SHOES:
+                dyingMessage = "신발은 " + victim.getShoes() + " 으악..";
                 break;
         }
+
 
         System.out.println("########################################");
         System.out.println("#######        평화로운 해커톤              ");
