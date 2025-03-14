@@ -32,23 +32,20 @@ public class DetectiveGame {
         lives = 2;
     }
 
-    public void showIntro() {
-        System.out.println("탐정 게임에 오신 것을 환영합니다.");
-        timer.sleep(1000);
 
-        // 4. Reader 클래스를 사용하여 탐정의 이름을 입력받고 1.5초 정지
-        Reader reader = new Reader();
+    // 4. Reader 클래스를 사용하여 탐정의 이름을 입력받고 1.5초 정지
+    private String getDetectiveName() {
         System.out.println("탐정의 이름을 알려주세요: ");
         String detectiveName = reader.nextLine();
-        System.out.println("탐정의 이름: " + detectiveName);
         Timer timer = new Timer();
         timer.sleep(1500);
+        return detectiveName;
+    }
 
-
-        // 5. 캐릭터 중 한 명을 희생자로 지정하고, 목록에서 제거
-        Character victim = characters.get(random.nextInt(characters.size()));  // 랜덤으로 희생자 선정
-        characters.remove(victim);  // 희생자를 목록에서 제거
-
+    // 5. 희생자 선정 및 목록에서 제거
+    private Character selectVictim() {
+        Character victim = characters.get(random.nextInt(characters.size()));
+        characters.remove(victim);
         murderer = characters.get(random.nextInt(characters.size()));
 
         List<String> dyingMessageType = List.of(
@@ -56,48 +53,28 @@ public class DetectiveGame {
                 "clothes",
                 "shoes"
         );
+        return victim;
+    }
 
-        // 6. 랜덤하게 속성 값을 선택하고 다잉메시지 출력
-
-        // 랜덤하게 속성 값 선택
-//        String selectedAttribute = dyingMessageType.get(random.nextInt(dyingMessageType.size()));
-//
-//        // 다잉 메시지 설정
-//        switch (selectedAttribute) {
-//            case "hair":
-//                dyingMessage = "머리스타일은 " + victim.getHair() + "으악..";
-//                break;
-//            case "clothes":
-//                dyingMessage = "옷은 " + victim.getClothes() + "으악..";
-//                break;
-//            case "shoes":
-//                dyingMessage = "신발은 " + victim.getShoes() + "으악..";
-//                break;
-//            default:
-//                dyingMessage = "모든 것이 혼란스러워...";
-//                break;
-//        }
-
-        // Enum 선언
-        enum AttributeType {
-            HAIR, CLOTHES, SHOES;
-        }
-
-        // 사용
+    // 6. 랜덤하게 속성 값을 선택하고 다잉메시지 출력
+    private String generateDyingMessage(Character victim) {
+        enum AttributeType { HAIR, CLOTHES, SHOES; }
         AttributeType selectedAttribute = AttributeType.values()[random.nextInt(AttributeType.values().length)];
 
         switch (selectedAttribute) {
-            case HAIR:
-                dyingMessage = "머리스타일은 " + victim.getHair() + " 으악..";
-                break;
-            case CLOTHES:
-                dyingMessage = "옷은 " + victim.getClothes() + " 으악..";
-                break;
-            case SHOES:
-                dyingMessage = "신발은 " + victim.getShoes() + " 으악..";
-                break;
+            case HAIR: return "머리스타일은 " + victim.getHair() + " 으악..";
+            case CLOTHES: return "옷은 " + victim.getClothes() + " 으악..";
+            case SHOES: return "신발은 " + victim.getShoes() + " 으악..";
+            default: return "모든 것이 혼란스러워...";
         }
-
+    }
+    public void showIntro() {
+        System.out.println("탐정 게임에 오신 것을 환영합니다.");
+        timer.sleep(1000);
+        
+        String detectiveName = getDetectiveName(); //4번
+        Character victim = selectVictim(); //5번
+        String dyingMessage = generateDyingMessage(victim); //6번
 
         System.out.println("########################################");
         System.out.println("#######        평화로운 해커톤              ");
@@ -156,12 +133,10 @@ public class DetectiveGame {
         for (int i = 1; i <= characters.size(); i++) {
             System.out.println(i + ". " + characters.get(i - 1).getName());
         }
-
         System.out.println("\n누구를 조사하시겠습니까? 이름을 입력하세요: ");
         String choiceName = reader.nextLine().trim();
 
         // 8. 사용자가 입력한 이름을 가진 용의자 조사
-
         Character suspect = null;
         for (Character c : characters) {
             if (c.getName().equalsIgnoreCase(choiceName)) {
@@ -176,17 +151,10 @@ public class DetectiveGame {
             System.out.println("머리스타일: " + suspect.getHair());
             System.out.println("옷차림: " + suspect.getClothes());
             System.out.println("신발: " + suspect.getShoes());
-        } else {
-            System.out.println("잘못된 입력입니다! 시간이 얼마 남지 않았습니다, 다시 시도해주세요!");
-            System.out.println("범인은 아직도 우리 곁에 있어요. 서둘러 진실을 밝혀내야 합니다!");
-            System.out.println(detectiveName + ": 좋아, 이번엔 잘 선택해보자.");
-            investigate();  // 재귀 호출로 다시 조사 진행
         }
-
-//        System.out.println("잘못된 입력입니다! 시간이 얼마 남지 않았습니다, 다시 시도해주세요!");
-//        System.out.println("범인은 아직도 우리 곁에 있어요. 서둘러 진실을 밝혀내야 합니다!");
-//        System.out.println(detectiveName + ": 좋아, 이번엔 잘 선택해보자.");
-
+        System.out.println("잘못된 입력입니다! 시간이 얼마 남지 않았습니다, 다시 시도해주세요!");
+        System.out.println("범인은 아직도 우리 곁에 있어요. 서둘러 진실을 밝혀내야 합니다!");
+        System.out.println(detectiveName + ": 좋아, 이번엔 잘 선택해보자.");
         investigate();
     }
 
