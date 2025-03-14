@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Random;
 import pironeer.util.Reader;
 import pironeer.util.Timer;
+import java.util.Optional;
+
 
 public class DetectiveGame {
 
@@ -127,7 +129,7 @@ public class DetectiveGame {
         System.out.println("########################################");
         timer.sleep(1000);
     }
-
+    
     public void investigate() {
         System.out.println("용의자와 대화를 나누고 인상착의를 수집하세요...");
         for (int i = 1; i <= characters.size(); i++) {
@@ -137,25 +139,23 @@ public class DetectiveGame {
         String choiceName = reader.nextLine().trim();
 
         // 8. 사용자가 입력한 이름을 가진 용의자 조사
-        Character suspect = null;
-        for (Character c : characters) {
-            if (c.getName().equalsIgnoreCase(choiceName)) {
-                suspect = c;
-                break;
-            }
-        }
+        Optional<Character> suspect = characters.stream() //Optional, Stream API 사용
+                .filter(c -> c.getName().equalsIgnoreCase(choiceName))  // 이름이 일치하는 용의자 필터링
+                .findFirst();
 
-        if (suspect != null) {
+        if (suspect.isPresent()) {
             System.out.println("\n[조사 결과]");
-            System.out.println("이름: " + suspect.getName());
-            System.out.println("머리스타일: " + suspect.getHair());
-            System.out.println("옷차림: " + suspect.getClothes());
-            System.out.println("신발: " + suspect.getShoes());
+            Character foundSuspect = suspect.get();
+            System.out.println("이름: " + foundSuspect.getName());
+            System.out.println("머리스타일: " + foundSuspect.getHair());
+            System.out.println("옷차림: " + foundSuspect.getClothes());
+            System.out.println("신발: " + foundSuspect.getShoes());
+        } else {
+            System.out.println("잘못된 입력입니다! 시간이 얼마 남지 않았습니다, 다시 시도해주세요!");
+            System.out.println("범인은 아직도 우리 곁에 있어요. 서둘러 진실을 밝혀내야 합니다!");
+            System.out.println(detectiveName + ": 좋아, 이번엔 잘 선택해보자.");
+            investigate();
         }
-        System.out.println("잘못된 입력입니다! 시간이 얼마 남지 않았습니다, 다시 시도해주세요!");
-        System.out.println("범인은 아직도 우리 곁에 있어요. 서둘러 진실을 밝혀내야 합니다!");
-        System.out.println(detectiveName + ": 좋아, 이번엔 잘 선택해보자.");
-        investigate();
     }
 
     public boolean matchDyingMessage(Character character) {
