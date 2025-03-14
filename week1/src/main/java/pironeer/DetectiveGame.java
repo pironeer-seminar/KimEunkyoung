@@ -193,6 +193,10 @@ public class DetectiveGame {
         System.out.println("\n범인을 지목할 시간입니다.");
 
         // 10. charaters 각 항목을 인덱스와 함께 출력
+        System.out.println("\n용의자 목록:");
+        for (int i = 0; i < characters.size(); i++) {
+            System.out.println((i + 1) + ". " + characters.get(i).getName());
+        }
 
         System.out.println("\n누구를 범인으로 지목하시겠습니까? 이름을 입력하세요: ");
         String choiceName = reader.nextLine().trim();
