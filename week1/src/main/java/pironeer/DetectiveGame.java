@@ -46,6 +46,8 @@ public class DetectiveGame {
 
 
         // 5. 캐릭터 중 한 명을 희생자로 지정하고, 목록에서 제거
+        Character victim = characters.get(random.nextInt(characters.size()));  // 랜덤으로 희생자 선정
+        characters.remove(victim);  // 희생자를 목록에서 제거
 
         murderer = characters.get(random.nextInt(characters.size()));
 
