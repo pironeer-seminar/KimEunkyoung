@@ -59,6 +59,25 @@ public class DetectiveGame {
 
         // 6. 랜덤하게 속성 값을 선택하고 다잉메시지 출력
 
+        // 랜덤하게 속성 값 선택
+        String selectedAttribute = dyingMessageType.get(random.nextInt(dyingMessageType.size()));
+
+        // 다잉 메시지 설정
+        switch (selectedAttribute) {
+            case "hair":
+                dyingMessage = "머리스타일은 " + victim.getHair() + "으악..";
+                break;
+            case "clothes":
+                dyingMessage = "옷은 " + victim.getClothes() + "으악..";
+                break;
+            case "shoes":
+                dyingMessage = "신발은 " + victim.getShoes() + "으악..";
+                break;
+            default:
+                dyingMessage = "모든 것이 혼란스러워...";
+                break;
+        }
+
         System.out.println("########################################");
         System.out.println("#######        평화로운 해커톤              ");
         System.out.println("########################################");
