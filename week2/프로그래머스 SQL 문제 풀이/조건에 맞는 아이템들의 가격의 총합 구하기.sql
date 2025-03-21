@@ -1,0 +1,1 @@
+select sum(PRICE) as TOTAL_PRICE from item_info where RARITY = 'LEGEND';
