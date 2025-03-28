@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d03bc25a-6a1c-4b0c-a423-9f58adf8bba3" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Pironeer_Assignment.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Pironeer_Assignment.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/week3/src/main/java/com/example/pironeer/domain/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/week3/src/main/java/com/example/pironeer/domain/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/week3/src/test/java/com/example/pironeer/OrderCancellationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/week3/src/test/java/com/example/pironeer/OrderCancellationTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,11 +55,20 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Gradle.OrderServiceTest.executor": "Run",
+    "Gradle.ProductServiceTest.executor": "Run",
+    "Gradle.UserServiceTest.executor": "Run",
+    "Gradle.week3 빌드.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "kek",
+    "Spring Boot.PironeerApplication.executor": "Run",
+    "git-widget-placeholder": "kek__Assignment",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/eunkyoung/OneDrive/바탕 화면/pironeer_Practice/week3",
+    "last_opened_file_path": "C:/Users/eunkyoung/OneDrive/바탕 화면/Pironeer_Assignment/week3",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -71,7 +78,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Spring Boot.PironeerApplication">
+  <component name="RunManager">
     <configuration name="PironeerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="pironeer.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.pironeer.PironeerApplication" />
@@ -109,6 +116,7 @@
       <workItem from="1743125203708" duration="55000" />
       <workItem from="1743125273363" duration="228000" />
       <workItem from="1743131123399" duration="4625000" />
+      <workItem from="1743136292950" duration="9843000" />
     </task>
     <servers />
   </component>

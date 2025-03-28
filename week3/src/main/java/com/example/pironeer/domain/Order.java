@@ -1,6 +1,7 @@
 package com.example.pironeer.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 @Table(name = "orders")
 public class Order {
 
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
@@ -17,10 +19,14 @@ public class Order {
     @ManyToOne
     public User user;
 
+    // Getter
+    @Getter
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     public List<OrderItem> orderItems = new ArrayList<>();
 
+    @Getter
     public String status; // "ORDERED", "CANCELLED"
+    @Getter
     public LocalDateTime orderDate;
 
     protected Order() {}
@@ -37,23 +43,13 @@ public class Order {
     }
 
     public void cancel() {
-        if (this.status.equals("CANCELLED")) return;
-        this.status = "CANCELLED";
+        if (this.status.equals("CANCELED")) {
+            throw new IllegalStateException("이미 취소된 주문입니다.");
+        }
+        this.status = "CANCELED";
         for (OrderItem item : orderItems) {
-            item.getProduct().addAmount(item.getQuantity()); // 재고 복구
+            item.getProduct().addAmount(item.getQuantity());
         }
     }
 
-    // Getter
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public LocalDateTime getOrderDate() {
-        return orderDate;
-    }
 }

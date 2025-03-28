@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
-class OrderServiceTest {
+public class OrderServiceTest {
 
     @Autowired
     OrderService orderService;

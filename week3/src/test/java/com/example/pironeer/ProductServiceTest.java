@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
-class ProductServiceTest {
+public class ProductServiceTest {
 
     @Autowired
     ProductService productService;
@@ -81,7 +81,7 @@ class ProductServiceTest {
         });
 
         // then
-        // 예외 발생 후 stockQuantity는 여전히 2
+        // 예외 발생 후 stockQuantity 여전히 2
         Product found = productRepository.findById(productId).orElse(null);
         assertThat(found.getStockQuantity()).isEqualTo(2);
     }

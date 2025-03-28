@@ -19,6 +19,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+
     // 단일 회원 조회
     public User getUser(Long id) {
         return userRepository.findById(id)

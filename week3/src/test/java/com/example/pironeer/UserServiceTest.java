@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-class UserServiceTest {
+public class UserServiceTest {
 
     @Autowired
     UserService userService;

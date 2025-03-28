@@ -12,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
-class OrderCancellationTest {
+public class OrderCancellationTest {
 
     @Autowired
     OrderService orderService;
@@ -39,11 +41,9 @@ class OrderCancellationTest {
 
     @BeforeEach
     void setUp() {
-        // 유저 생성
         User user = new User("CancelTester", "canceltester@example.com");
         savedUserId = userService.createUser(user);
 
-        // 상품 생성
         Product keyboard = new Product("Keyboard", 30_000, 5);
         Product mouse = new Product("Mouse", 20_000, 5);
         keyboardId = productService.createProduct(keyboard);
@@ -53,36 +53,35 @@ class OrderCancellationTest {
     @Test
     @DisplayName("주문을 취소하면 주문 상태가 'CANCELED'가 되고, 재고가 복원되어야 한다.")
     void cancelOrderTest() {
-        // given
-        // 1) 주문 생성
-        OrderRequestItem item1 = new OrderRequestItem(keyboardId, 2); // 키보드 2개
-        OrderRequestItem item2 = new OrderRequestItem(mouseId, 1);    // 마우스 1개
-        Long orderId = orderService.createOrder(savedUserId, item1);
-        Long orderId2 = orderService.createOrder(savedUserId, item2);
+        OrderRequestItem item1 = new OrderRequestItem(keyboardId, 2);
+        OrderRequestItem item2 = new OrderRequestItem(mouseId, 1);
+        Order order1 = orderService.createOrder(savedUserId, List.of(item1));
+        Order order2 = orderService.createOrder(savedUserId, List.of(item2));
+        Long orderId = order1.getId();
+        Long orderId2 = order2.getId();
+
         em.flush();
         em.clear();
-        // 2) 생성된 주문 확인
+
         Order orderBeforeCancel = orderRepository.findById(orderId).orElse(null);
         assertThat(orderBeforeCancel).isNotNull();
+        //assertThat(orderBeforeCancel.getStatus()).isEqualTo("ORDERED");
         assertThat(orderBeforeCancel.getStatus()).isEqualTo("ORDERED");
 
-        // 재고가 줄었는지 확인 (ex. 키보드: 5 → 3, 마우스: 5 → 4)
         Product keyboardBeforeCancel = productRepository.findById(keyboardId).orElse(null);
         Product mouseBeforeCancel = productRepository.findById(mouseId).orElse(null);
         assertThat(keyboardBeforeCancel.getStockQuantity()).isEqualTo(3);
         assertThat(mouseBeforeCancel.getStockQuantity()).isEqualTo(4);
 
-        // when
-        // 3) 주문 취소
         orderService.cancelOrder(orderId);
         orderService.cancelOrder(orderId2);
         em.flush();
         em.clear();
-        // then
+
         Order orderAfterCancel = orderRepository.findById(orderId).orElse(null);
+        //assertThat(orderAfterCancel.getStatus()).isEqualTo("CANCELED");
         assertThat(orderAfterCancel.getStatus()).isEqualTo("CANCELED");
 
-        // 5) 재고 복원 여부 확인 (키보드: 다시 5, 마우스: 다시 5)
         Product keyboardAfterCancel = productRepository.findById(keyboardId).orElse(null);
         Product mouseAfterCancel = productRepository.findById(mouseId).orElse(null);
         assertThat(keyboardAfterCancel.getStockQuantity()).isEqualTo(5);
@@ -92,17 +91,16 @@ class OrderCancellationTest {
     @Test
     @DisplayName("이미 취소된 주문(상태 'CANCELED')을 다시 취소하려고 하면 예외 발생")
     void cancelAlreadyCanceledOrderTest() {
-        // given
         OrderRequestItem item = new OrderRequestItem(keyboardId, 1);
-        Long orderId = orderService.createOrder(savedUserId, item);
-        orderService.cancelOrder(orderId); // 한 번 취소
+        Order order = orderService.createOrder(savedUserId, List.of(item));
+        Long orderId = order.getId();
+
+        orderService.cancelOrder(orderId);
         em.flush();
         em.clear();
 
-        // when & then
         assertThrows(IllegalStateException.class, () -> {
             orderService.cancelOrder(orderId);
         });
     }
 }
-
