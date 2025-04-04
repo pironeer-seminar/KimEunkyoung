@@ -3,6 +3,7 @@ package com.example.pironeer.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 @Entity
 @Getter
 @Table(name = "users")

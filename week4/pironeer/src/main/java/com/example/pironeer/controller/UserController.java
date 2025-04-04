@@ -18,6 +18,7 @@ public class UserController {
 
     @PostMapping("")
     public Long create(@RequestBody UserCreateReq req) {
+
         return userService.create(req);
     }
 }

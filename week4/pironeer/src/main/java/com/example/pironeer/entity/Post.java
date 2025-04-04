@@ -6,9 +6,9 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 @Builder
 @Entity
-@Getter
 public class Post {
 
     @Id

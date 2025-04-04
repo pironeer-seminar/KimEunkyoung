@@ -2,10 +2,14 @@ package com.example.pironeer.service;
 
 import com.example.pironeer.dto.request.PostCreateReq;
 import com.example.pironeer.dto.request.PostUpdateReq;
+import com.example.pironeer.dto.response.CommentRes;
 import com.example.pironeer.dto.response.PostSearchRes;
+import com.example.pironeer.entity.Comment;
 import com.example.pironeer.entity.Post;
 import com.example.pironeer.entity.PostStatus;
 import com.example.pironeer.entity.User;
+import com.example.pironeer.repository.CommentRepository;
+import com.example.pironeer.repository.LikeRepository;
 import com.example.pironeer.repository.PostRepository;
 import com.example.pironeer.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -21,6 +25,8 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
 
     public Long create(PostCreateReq req) {
         User user = userRepository.findById(req.getUserId())
@@ -36,8 +42,7 @@ public class PostService {
         // PostStatus가 public인 게시글만 조회할 수 있다.
         List<Post> posts = postRepository.findAllByStatus(PostStatus.PUBLIC);
         return posts.stream()
-                .map(post -> new PostSearchRes(post.getUser().getId(), post.getId(), post.getTitle(), post.getContent(),
-                        post.getCreatedAt()))
+                .map(post -> new PostSearchRes(post.getUser().getId(), post.getId(), post.getTitle(), post.getContent(), post.getCreatedAt()))
                 .toList();
     }
 
@@ -49,12 +54,31 @@ public class PostService {
 //        return new PostSearchRes(post.getUserId().getId(), post.getId(), post.getTitle(),
 //                post.getContent(), post.getCreatedAt());
 
+//        return new PostSearchRes(
+//                post.getUser().getId(),
+//                post.getId(),
+//                post.getTitle(),
+//                post.getContent(),
+//                post.getCreatedAt()
+//        );
+
+
+        List<Comment> comments = commentRepository.findAllByPost(post);
+        long likeCount = likeRepository.countByPost(post);
+
+        List<CommentRes> commentResList = comments.stream()
+                .map(c -> new CommentRes(c.getUser().getName(), c.getContent(), c.getCreatedAt()))
+                .toList();
+
         return new PostSearchRes(
                 post.getUser().getId(),
                 post.getId(),
                 post.getTitle(),
                 post.getContent(),
-                post.getCreatedAt()
+                post.getCreatedAt(),
+                commentResList,
+                likeCount
+
         );
 
     }
@@ -73,4 +97,22 @@ public class PostService {
         postRepository.deleteById(postId);
         return postId;
     }
+
+    public List<PostSearchRes> getPostsByUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("조회된 유저가 없습니다."));
+
+        List<Post> posts = postRepository.findAllByUser(user);
+
+        return posts.stream()
+                .map(post -> new PostSearchRes(
+                        user.getId(),
+                        post.getId(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getCreatedAt()
+                ))
+                .toList();
+    }
+
 }
