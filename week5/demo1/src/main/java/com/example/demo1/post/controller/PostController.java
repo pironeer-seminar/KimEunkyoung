@@ -6,6 +6,7 @@ import com.example.demo1.post.dto.request.PostCreateReq;
 import com.example.demo1.post.dto.request.PostUpdateReq;
 import com.example.demo1.post.dto.response.PostSearchRes;
 import com.example.demo1.post.service.PostService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +23,7 @@ public class PostController {
 
     // 생성
     @PostMapping("")
+    @Operation(summary = "게시글 생성")
     public ApiRes<?> create(@RequestBody @Valid PostCreateReq req) {
         postService.create(req);
         return ApiRes.success(PostSuccessType.CREATE);
@@ -42,6 +44,7 @@ public class PostController {
 //        return postService.detail(postId);
 //    }
     @GetMapping("/{postId}")
+    @Operation(summary = "게시글 단건 조회", description = "postId를 통해 게시글 하나를 조회합니다.")
     public ApiRes<PostSearchRes> detail(@PathVariable("postId") Long postId) {
         return ApiRes.success(PostSuccessType.GET_ONE, postService.detail(postId));
     }
