@@ -5,6 +5,7 @@ import com.example.week6.dto.SignupRequest;
 import com.example.week6.dto.TokenRequest;
 import com.example.week6.entity.Member;
 import com.example.week6.entity.RefreshToken;
+import com.example.week6.entity.Role;
 import com.example.week6.jwt.JwtTokenProvider;
 import com.example.week6.repository.MemberRepository;
 import com.example.week6.repository.RefreshTokenRepository;
@@ -31,6 +32,11 @@ public class AuthService {
         Member member = new Member();
         member.setUsername(request.getUsername());
         member.setPassword(passwordEncoder.encode(request.getPassword()));
+        memberRepository.save(member);
+
+        // 권한 부여
+        member.setRole(Role.USER);
+
         memberRepository.save(member);
     }
 

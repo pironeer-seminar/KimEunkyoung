@@ -20,4 +20,9 @@ public class Member {
 
     @Column(nullable = false)
     private String password;
+
+    // Member.java
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
 }
